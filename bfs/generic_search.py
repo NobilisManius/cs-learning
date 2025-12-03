@@ -32,7 +32,7 @@ class Comparable(Protocol):
     def __le__(self, other: Any) -> bool:
         return self < other or self == other
 
-    def binary_contains(sequence: Sequence[Comparaable], key: Comparaable) -> bool:
+    def binary_contains(sequence: Sequence[Comparable], key: Comparable) -> bool:
         low: int = 0
         high: int = len(sequence) - 1
         while low <= high:
