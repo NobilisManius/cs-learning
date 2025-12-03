@@ -33,8 +33,18 @@ class Maze:
     
     def __str__(self) -> str:
         output: str = ""
-        for row in self._grid:
-            output += "".join([cell.value for cell in row]) + "\n"
+        border = "═" * (self._cols * 2 + 1)
+        output += f"╔{border}╗\n"
+        for i, row in enumerate(self._grid):
+            output += "║ "
+            output += " ".join([
+                cell.value if MazeLocation(i, j) not in [self.start, self.goal]
+                else (Cell.START.value if MazeLocation(i, j) == self.start
+                      else "●")
+                for j, cell in enumerate(row)
+            ])
+            output += " ║\n"
+        output += f"╚{border}╝"
         return output
 
 maze: Maze = Maze()
