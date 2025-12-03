@@ -11,3 +11,7 @@ class Cell(str, Enum):
     GOAL = "G"
     PATH = "*"
 
+class MazeLocation(NamedTuple):
+    row: int
+    col: int
+
