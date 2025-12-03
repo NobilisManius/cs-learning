@@ -28,3 +28,20 @@ def linear_contains(gene: Gene, key_codon: Codon) -> bool:
 
 print(linear_contains(my_gene, (Nucleotide.A, Nucleotide.C, Nucleotide.G)))
 print(linear_contains(my_gene, (Nucleotide.G, Nucleotide.A, Nucleotide.T)))
+
+def binary_contains(gene: Gene, key_codon: Codon) -> bool:
+    low: int = 0
+    high: int = len(gene) - 1
+    while low <= high:
+        mid: int = (low + high) // 2
+        if gene[mid] < key_codon:
+            low = mid + 1
+        elif gene[mid] > key_codon:
+            high = mid - 1
+        else:
+            return True
+    return False
+
+sorted_gene: Gene = sorted(my_gene)
+print(binary_contains(sorted_gene, (Nucleotide.A, Nucleotide.C, Nucleotide.G)))
+print(binary_contains(sorted_gene, (Nucleotide.G, Nucleotide.A, Nucleotide.T)))
