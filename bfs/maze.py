@@ -23,4 +23,11 @@ class Maze:
         self.goal: MazeLocation = goal
         self._grid: List[List[Cell]] = [[Cell.Empty for _ in range(cols)] for _ in range(rows)]
 
+        self._randomly_fill(sparseness)
+
+    def _randomly_fill(self, sparseness: float):
+        for row in range(self._rows):
+            for col in range(self._cols):
+                if random.uniform(0, 1.0) < sparseness:
+                    self._grid[row][col] = Cell.BLOCKED
     
