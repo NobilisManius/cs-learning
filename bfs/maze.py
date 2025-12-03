@@ -5,10 +5,10 @@ from math import sqrt
 # from generic_search import dfs, bfs, node_to_path
 
 class Cell(str, Enum):
-    Empty = " "
-    BLOCKED = "X"
-    START = "S"
-    GOAL = "G"
+    Empty = "▢"
+    BLOCKED = "▣"
+    START = "ø"
+    GOAL = ""
     PATH = "*"
 
 class MazeLocation(NamedTuple):
@@ -31,3 +31,11 @@ class Maze:
                 if random.uniform(0, 1.0) < sparseness:
                     self._grid[row][col] = Cell.BLOCKED
     
+    def __str__(self) -> str:
+        output: str = ""
+        for row in self._grid:
+            output += "".join([cell.value for cell in row]) + "\n"
+        return output
+
+maze: Maze = Maze()
+print(maze)
