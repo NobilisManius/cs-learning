@@ -1,6 +1,5 @@
 from __future__ import annotations
-from typing import TypeVar, Iterable, Sequence, Generic, List, Callable, Set, Dict, Any, Optional
-from typing_extensions import Protocol
+from typing import TypeVar, Iterable, Sequence, Generic, List, Callable, Set, Dict, Any, Optional, Protocol
 from heapq import heappush, heappop
 from abc import ABC, abstractmethod
 
@@ -71,6 +70,8 @@ class Node(Generic[T]):
 
     def __lt__(self, other: Node) -> bool:
         return self.cost + self.heuristic < other.cost + other.heuristic
+    
+    
 
 def dfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T], List[T]]) -> Optional[Node[T]]:
     frontier: Stack[Node[T]] = Stack()
@@ -82,12 +83,20 @@ def dfs(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T], Li
         current_node: Node[T] = frontier.pop()
         current_state: T = current_node.state
     
-    if goal_test(current_state):
-        return current_node
+        if goal_test(current_state):
+            return current_node
     
-    for child in successors(current_state):
-        if child in explored:
-            continue
-        explored.add(child)
-        frontier.push(Node(child, current_node))
+        for child in successors(current_state):
+            if child in explored:
+                continue
+            explored.add(current_state)
+            frontier.push(Node(child, current_node))
     return None
+
+def node_to_path(node: Node[T]) -> List[T]:
+    path: List[T] = [node.state]
+    while node.parent is not None:
+        node = node.parent
+        path.append(node.state)
+    path.reverse()
+    return path
