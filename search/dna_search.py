@@ -45,3 +45,4 @@ def binary_contains(gene: Gene, key_codon: Codon) -> bool:
 sorted_gene: Gene = sorted(my_gene)
 print(binary_contains(sorted_gene, (Nucleotide.A, Nucleotide.C, Nucleotide.G)))
 print(binary_contains(sorted_gene, (Nucleotide.G, Nucleotide.A, Nucleotide.T)))
+
