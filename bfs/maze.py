@@ -46,5 +46,17 @@ class Maze:
         output += f"╚{border}╝"
         return output
 
-maze: Maze = Maze()
-print(maze)
+    def goal_test(self, ml: MazeLocation) -> bool:
+        return ml == self.goal
+
+    def successors(self, ml: MazeLocation) -> List[MazeLocation]:
+        locations: List[MazeLocation] = []
+        if ml.row + 1 < self._rows and self._grid[ml.row + 1][ml.col] != Cell.BLOCKED:
+            locations.append(MazeLocation(ml.row + 1, ml.col))
+        if ml.row - 1 >= 0 and self._grid[ml.row - 1][ml.col] != Cell.BLOCKED:
+            locations.append(MazeLocation(ml.row - 1, ml.col))
+        if ml.col + 1 < self._cols and self._grid[ml.row][ml.col + 1] != Cell.BLOCKED:
+            locations.append(MazeLocation(ml.row, ml.col + 1))
+        if ml.col - 1 >= 0 and self._grid[ml.row][ml.col - 1] != Cell.BLOCKED:
+            locations.append(MazeLocation(ml.row, ml.col - 1))
+        return locations
