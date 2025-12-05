@@ -2,7 +2,7 @@ from enum import Enum
 from typing import List, NamedTuple, Callable, Optional
 import random
 from math import sqrt
-from generic_search import dfs, node_to_path, Node, bfs
+from generic_search import dfs, node_to_path, Node, bfs, astar
 
 class Cell(str, Enum):
     Empty = "▢"
@@ -74,6 +74,16 @@ class Maze:
         self._grid[self.start.row][self.start.col] = Cell.START
         self._grid[self.goal.row][self.goal.col] = Cell.GOAL
 
+def euclidean_distance(goal: MazeLocation) -> Callable[[MazeLocation], float]:
+    def distance(ml: MazeLocation) -> float:
+        return sqrt((ml.row - goal.row) ** 2 + (ml.col - goal.col) ** 2)
+    return distance
+
+def manhattan_distance(goal: MazeLocation) -> Callable[[MazeLocation], float]:
+    def distance(ml: MazeLocation) -> float:
+        return abs(ml.row - goal.row) + abs(ml.col - goal.col)
+    return distance
+
 if __name__ == "__main__":
     maze: Maze = Maze()
     print("="*60)
@@ -97,7 +107,29 @@ if __name__ == "__main__":
     if solution2 is None:
         print("No solution found using DFS")
     else:
-        path: List[MazeLocation] = node_to_path(solution2)
-        maze.mark(path)
+        path2: List[MazeLocation] = node_to_path(solution2)
+        maze.mark(path2)
         print(maze)
+        maze.clear(path2)
         
+    print("="*60)
+    print("ASTAR SOLUTION:")
+    solution3: Optional[Node[MazeLocation]] = astar(maze.start, maze.goal_test, maze.successors, euclidean_distance(maze.goal))
+    if solution3 is None:
+        print("No solution found using A*")
+    else:
+        path3: List[MazeLocation] = node_to_path(solution3)
+        maze.mark(path3)
+        print(maze)
+        maze.clear(path3)
+    
+    print("="*60)
+    print("ASTAR SOLUTION:")
+    solution4: Optional[Node[MazeLocation]] = astar(maze.start, maze.goal_test, maze.successors, manhattan_distance(maze.goal))
+    if solution4 is None:
+        print("No solution found using A*")
+    else:
+        path4: List[MazeLocation] = node_to_path(solution4)
+        maze.mark(path4)
+        print(maze)
+        maze.clear(path4)
