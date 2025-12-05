@@ -152,3 +152,23 @@ class PriorityQueue(Generic[T]):
 
     def pop(self) -> T:
         return heappop(self._container)
+
+def astar(initial: T, goal_test: Callable[[T], bool], successors: Callable[[T], List[T]], heuristic: Callable[[T], float]) -> Optional[Node[T]]:
+    frontier: PriorityQueue[Node[T]] = PriorityQueue()
+    frontier.push(Node(initial, None, 0.0, heuristic(initial)))
+
+    explored: Set[T] = {initial}
+
+    while not frontier.empty:
+        current_node: Node[T] = frontier.pop()
+        current_state: T = current_node.state
+
+        if goal_test(current_state):
+            return current_node
+
+        for child in successors(current_state):
+            if child in explored:
+                continue
+            explored.add(child)
+            frontier.push(Node(child, current_node, current_node.cost + 1, heuristic(child)))
+    return None
