@@ -9,8 +9,7 @@ class Cell(str, Enum):
     BLOCKED = "▣"
     START = "ø"
     GOAL = ""
-    PATH = "*"
-
+    PATH = "•"
 class MazeLocation(NamedTuple):
     row: int
     col: int
